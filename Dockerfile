@@ -1,11 +1,13 @@
 FROM python:3.8
 
+ADD . /app
 WORKDIR /rp-gui
 
 COPY requirements.txt .
-
-RUN pip install -r requirements.txt
-
 COPY ./app ./app
 
-CMD ["python", "./app/gui.py"]
+RUN python -m venv venv
+RUN venv/bin/pip install --upgrade pip
+RUN venv/bin/pip install -r requirements.txt
+
+CMD . venv/bin/activate && exec python ./app/gui.py
